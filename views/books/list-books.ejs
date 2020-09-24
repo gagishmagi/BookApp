@@ -20,8 +20,8 @@
                     <td><%= book.Author %></td>
                     <td><%= book.Comments %></td>
                     <td class="d-print-none">
-                        <a class="btn btn-sm btn-warning" href="/book/edit/<%= book.Book_ID %>">Edit</a>
-                        <a class="btn btn-sm btn-danger" href="/book/delete/<%= book.Book_ID %>">Delete</a>
+                        <a class="btn btn-sm btn-warning" href="/books/edit/<%= book.Book_ID %>">Edit</a>
+                        <a class="btn btn-sm btn-danger delete-button" href="/books/delete/<%= book.Book_ID %>">Delete</a>
                     </td>
                 </tr>
                 <% } %>
