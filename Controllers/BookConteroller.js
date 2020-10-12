@@ -1,6 +1,5 @@
 const Book = require('../Models/Book');
 
-
 exports.index = async function (req, res) {
 
     let rows = [];
@@ -17,7 +16,7 @@ exports.index = async function (req, res) {
     // New way ES6
     try {
         rows = await Book.getAllBooks()
-        console.log(rows);
+        // console.log(rows);
     } catch (error) {
         console.log(error.message)
     }
@@ -42,7 +41,7 @@ exports.add_new_book =  function (req, res) {
     const book_comments = req.body.Comments;
 
     try {
-        Book.addBook(book_title, book_author, book_comments);
+        // Book.addBook(book_title, book_author, book_comments);
     } catch (error) {
         console.log(error.message)
     }
