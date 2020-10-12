@@ -3,9 +3,11 @@
 
     <h1><%= title %></h1>
 
+    <% if (typeof error != 'undefined') { %>
     <div class="alert alert-danger" role="alert">
-        <%#= error %>
+        <%= error %>
     </div>
+    <% } %>
 
     <form action="/books/add" method="post" enctype="multipart/form-data">
         <div class="form-horizontal">

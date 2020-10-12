@@ -8,9 +8,8 @@ const middleware = (schema) => {
             next();
         }else{
             const { details } = error
-            const message = (details || []).map( item => item.message ).join(',')
+            const message = details.map( item => item.message ).join(',')
 
-            console.log("error", error);
             // res.status(422).json({ error: message})
             res.render('books/add-book', {
                 title: 'add-book',
