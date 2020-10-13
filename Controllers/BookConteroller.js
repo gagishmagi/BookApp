@@ -55,6 +55,7 @@ exports.add_new_book =  function (req, res) {
             file.path  = path.join(__dirname, '..', 'public', 'images', file.name)
         }
         else{
+            fs.unlink(file.path)
             console.error('error', "JPG's, PNG's, GIF's only")
             throw err
         }
