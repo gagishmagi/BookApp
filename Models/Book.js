@@ -33,10 +33,10 @@ function getBook(id) {
     });
 }
 
-exports.addBook = (Book_Title, Book_Author, Book_Comments) => {
+exports.addBook = (Book_Title, Book_Author, Book_Comments, Book_Image) => {
     console.log("Add a new book request");
-    const sql = "INSERT INTO Books (Title, Author, Comments) VALUES (?, ? , ?)";
-    const book = [Book_Title, Book_Author, Book_Comments];
+    const sql = "INSERT INTO Books (Title, Author, Comments, Image) VALUES ( ?, ? , ?, ?)";
+    const book = [Book_Title, Book_Author, Book_Comments, Book_Image];
     db.run(sql, book, err => {
         if (err) {
             console.error(err.message);

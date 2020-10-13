@@ -1,4 +1,8 @@
 const Book = require('../Models/Book');
+var formidable = require('formidable');
+var fs = require('fs');
+var path = require('path');
+
 
 exports.index = async function (req, res) {
 
@@ -36,17 +40,89 @@ exports.add_new_book_form = function (req, res) {
 }
 
 exports.add_new_book =  function (req, res) {
-    const book_title = req.body.Title;
-    const book_author = req.body.Author;
-    const book_comments = req.body.Comments;
+     let book_title;
+     let book_author;
+     let book_comments;
+     let book_image;
 
-    try {
-        // Book.addBook(book_title, book_author, book_comments);
-    } catch (error) {
-        console.log(error.message)
-    }
 
-    res.redirect(`/books`);
+    new formidable.IncomingForm().parse(req)
+    .on('fileBegin', (name, file) =>{
+
+        const type = file.type.split('/')[1]
+
+        if (type == 'png' || type == 'jpg' || type == 'jpeg' || type == 'gif') {
+            file.path  = path.join(__dirname, '..', 'public', 'images', file.name)
+        }
+        else{
+            console.error('error', "JPG's, PNG's, GIF's only")
+            throw err
+        }
+
+    })
+    .on('file', (name, file) => {
+        // console.log('File Uploaded', name, file )
+
+        book_image = file.name;
+
+        // after the break get path to public images folder to save the file
+        // const upload_path = path.join(__dirname, '..' ,'public', 'images' )
+        // fs.rename(file.path, upload_path , (err) => {
+        //     if(err){
+        //         console.log('Error', err)
+        //     }
+        //     console.log(" File is in folder")
+        // })
+        // fs.rename(file.path)
+    })
+    .on('field', (name, field) => {
+        console.log('Field', name, field)
+        console.log(name)
+        switch (name) {
+            case 'Title':
+                book_title = field
+                console.log(book_title)
+                break;
+
+            case 'Author':
+                book_author = field
+                break;
+
+            case 'Comments':
+                book_comments = field
+                break;
+
+            default:
+                break;
+        }
+
+        // if( name === 'Title')
+        //     book_title = field;
+        // if (name === 'Author')
+        //     book_author = field;
+        // if (name === 'Comments')
+        //     book_comments = field;
+    })
+    .on('error', (err) => {
+        console.error('Error', err)
+        throw err
+    })
+    .on('end', () => {
+        // console.log(book_title);
+        // console.log(book_author);
+        // console.log(book_comments);
+        // console.log(book_image);
+
+        try {
+            Book.addBook(book_title, book_author, book_comments, book_image);
+        } catch (error) {
+            console.log(error.message)
+        }
+
+        res.redirect(`/books`);
+        res.end()
+    })
+
 
 }
 
