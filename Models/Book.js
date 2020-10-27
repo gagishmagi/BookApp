@@ -1,4 +1,5 @@
 const { db } = require('../database/config');
+const { Book } = require('./schemas/schemas');
 
 
 exports.getAllBooks = () => new Promise( (resolve , reject) => {
@@ -15,23 +16,26 @@ exports.getAllBooks = () => new Promise( (resolve , reject) => {
     });
 });
 
-function getBook(id) {
-    let id = req.params.id;
+exports.getBook = (id) => new Promise((resolve, reject) => {
+    // let id = req.params.id;
 
 
     var sql_string = 'SELECT * FROM Books WHERE Book_ID=?';
 
     db.get(sql_string, id, (err, row) => {
-        if (err)
+        if (err){
             console.log(err.message);
+            reject(err);
+        }
         else {
-            res.render('books/edit-book', {
-                title: 'Edit the book',
-                book: row
-            });
+            resolve(row)
+            // res.render('books/edit-book', {
+            //     title: 'Edit the book',
+            //     book: row
+            // });
         }
     });
-}
+});
 
 exports.addBook = (Book_Title, Book_Author, Book_Comments, Book_Image) => {
     console.log("Add a new book request");
@@ -59,6 +63,8 @@ function editbook(id){
             return console.error(err.message);
         }
     });
+
+    return book;
 
 }
 

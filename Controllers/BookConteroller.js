@@ -128,10 +128,22 @@ exports.add_new_book =  function (req, res) {
 }
 
 
-exports.edit_book_form = function (req, res) {
+exports.edit_book_form = async function (req, res) {
 
-    // let id = req.params.id;
+    let id = req.params.id;
 
+    let row;
+
+    try {
+        row = await Book.getBook(id);
+    } catch (error) {
+        console.log(error)
+    }
+
+    res.render('books/edit-book', {
+                title: 'Edit the book',
+                book: row
+            });
 
     // var sql_string = 'SELECT * FROM Books WHERE Book_ID=?';
 
